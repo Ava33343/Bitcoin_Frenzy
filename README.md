@@ -49,21 +49,27 @@ The above model also tracts the actual values better over time as shown in the p
 
 In comparison, based on evaluation results shown below, a window size of 1, meaning one day of lag, creates the best models. It generates the least amount of loss among models based on a range of window sizes from 1 to 10. 
 
-    * A window size of 1 also produces better forecasts for its model for FNG Indicator. Figures on the model is shown below:
+A window size of 1 also produces better forecasts for its model for FNG Indicator. Figures on the model is shown below:
 
 For FNG predictor models, its corresponding graphs for unshuffled validation data appears as follows:
+
 ![btc_fng_unshuffled_1day](Answers/Images/btc_fng_unshuffled_1day.png)
 ![btc_fng_loss_unshuffled_1day](Answers/Images/btc_fng_loss_unshuffled_1day.png)
 
 
 * Another model that produces relatively low losses is the model 
+
 ![btc_closing_unshuffled_8day](Answers/Images/btc_closing_unshuffled_8day.png)
 ![btc_loss_unshuffled_8day](Answers/Images/btc_loss_unshuffled_8day.png)
+
 Since the gap between validation and traning losses widens, the model is overfitting. 
 
 Its FNG predictor models are shown as follows:
+
 ![btc_fng_unshuffled_1day](Answers/Images/btc_fng_unshuffled_8day.png)
 ![btc_fng_unshuffled_1day](Answers/Images/btc_fng_loss_unshuffled_8day.png)
+
+
 The loss plot suggests that we need more representative the validation data. 
 
 _**Detailed results are shown in the tables below. Models that provides least losses are shown in bold:**_
@@ -105,7 +111,18 @@ _without Defined Validation_
 
 ### **Discussion**
 
-* A batch size of 10 is used for the models, changing it to smaller batch sizes, e.g. 5, would increase the training loss. On the other hand, decreasing batch size from 30 to 10 drops the training losses. 
+* A batch size of 10 is used for the models, changing it to smaller batch sizes, e.g. 5, would increase the training loss. On the other hand, decreasing batch size from 30 to 10 drops the training losses. See the following for a comparison:
+
+_**Batch size of 10 on a window size of 9 on closing price model:**_
+
+![btc_fng_unshuffled_1day](Answers/Images/btc_closing_9day.png)
+![btc_fng_unshuffled_1day](Answers/Images/btc_loss_9day.png)
+
+_**Batch size of 5 on a window size of 9 on closing price model:**_
+
+![btc_fng_unshuffled_1day](Answers/Images/btc_closing_batch5_9day.png)
+![btc_fng_unshuffled_1day](Answers/Images/btc_loss_batch5_9day.png)
+
 
 * Although LSTM has three `sigmoid` and one `tanh` built in as activation functions, one extra `tanh` was build on Layer 2. However, it was noted that `sigmoid` built onto Layer 2 would enhance the fng prediction model as the losses decreased following the change. For consistency purposes, `tanh` is used for both closing price and fng index predicting models. 
 
@@ -143,3 +160,11 @@ _without Defined Validation_
 * http://docs.h5py.org/en/stable/high/file.html
 * https://machinelearningmastery.com/5-step-life-cycle-long-short-term-memory-models-keras/
 * https://datascience.stackexchange.com/questions/66594/activation-function-between-lstm-layers
+* https://medium.com/keita-starts-data-science/time-series-split-with-scikit-learn-74f5be38489e
+* https://machinelearningmastery.com/backtest-machine-learning-models-time-series-forecasting/
+* https://medium.com/@julie.yin/understanding-the-data-splitting-functions-in-scikit-learn-9ae4046fbd26
+* https://towardsdatascience.com/6-amateur-mistakes-ive-made-working-with-train-test-splits-916fabb421bb
+* https://datascience.stackexchange.com/questions/15135/train-test-validation-set-splitting-in-sklearn
+* https://towardsdatascience.com/choosing-the-right-hyperparameters-for-a-simple-lstm-using-keras-f8e9ed76f046
+* https://stackoverflow.com/questions/35074549/how-to-load-a-model-from-an-hdf5-file-in-keras
+* http://danielhnyk.cz/predicting-sequences-vectors-keras-using-rnn-lstm/
