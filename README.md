@@ -105,8 +105,9 @@ _without Defined Validation_
 |  **1**      | **0.0021**| **0.0904**     |
 
 
+- - -
 <details><summary>
-Plots on other models are shown below:
+Plots for other models are shown below (click me):
 </summary>
 
 _**Closing Price Models**_
@@ -146,7 +147,8 @@ _Unshuffled Validation_
 _Without Validation_
 
 ![btc_closing_original_1day](Answers/Images/btc_closing_original_1day.png)
-![btc_loss_original_1day](Answers/Images/btc_loss_original_1day.png)
+![btc_loss_original_1day](Answers/Images/btc_closing_original_loss_1day.png)
+
 
 _**FNG Index Models**_
 
@@ -179,6 +181,8 @@ _shuffled validation_
 _Without Validation_
 
 ![btc_fng_original_1day](Answers/Images/btc_fng_original_1day.png)
+![btc_loss_original_1day](Answers/Images/btc_fng_loss_original_1day.png)
+
 
 
 </details>
