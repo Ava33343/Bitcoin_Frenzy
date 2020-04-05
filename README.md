@@ -29,7 +29,7 @@ X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size = 
 
 Since training loss continues to decreasing at the end, the model is underfitting and training process may be continued. Moreover, the plot for losses suggests the need to find more representative validation data as the validation losses are lower than training losses. The orange line falls below the blue line. 
 
-Since bitcoin closing prices are time series data, the model with `window_size=1` based on bitcoin closing price and FNG prices also produces less loss compared to other models. The valiation data is generated from the following script:
+As bitcoin closing prices are time series data, the model with `window_size=1` based on bitcoin closing price and FNG prices also produces less loss compared to other models. The valiation data is generated from the following script:
 
 ```python
 # Creating validation data sets
