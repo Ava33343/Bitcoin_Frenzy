@@ -62,7 +62,7 @@ For FNG predictor models, its corresponding graphs for unshuffled validation dat
 ![btc_closing_unshuffled_8day](Answers/Images/btc_closing_unshuffled_8day.png)
 ![btc_loss_unshuffled_8day](Answers/Images/btc_loss_unshuffled_8day.png)
 
-Since the gap between validation and traning losses widens, the model is overfitting. 
+Since the gap between validation and traning losses widens, the model is potentially overfitting. 
 
 Its FNG predictor models are shown as follows:
 
@@ -70,7 +70,7 @@ Its FNG predictor models are shown as follows:
 ![btc_fng_unshuffled_1day](Answers/Images/btc_fng_loss_unshuffled_8day.png)
 
 
-The loss plot suggests that we need more representative the validation data. 
+The loss plot suggests that we need more representative validation data. 
 
 _**Detailed results are shown in the tables below. Models that produces least losses are shown in bold:**_
 
