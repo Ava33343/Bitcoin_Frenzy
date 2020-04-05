@@ -1,89 +1,145 @@
-# LSTM Stock Predictor
+# Bitcoin Franzy
+## _LSTM Stock Predictor with Fear and Greed_
 
-![deep-learning.jpg](Images/deep-learning.jpg)
+Are you excited to forecast bitcoin prices? That is why deep learning recurrent nerual networks (RNNs) are used to predict bitcoin closing prices. Two prediction models are discussed in this assignment:
 
-Due to the volatility of cryptocurrency speculation, investors will often try to incorporate sentiment from social media and news articles to help guide their trading strategies. One such indicator is the [Crypto Fear and Greed Index (FNG)](https://alternative.me/crypto/fear-and-greed-index/) which attempts to use a variety of data sources to produce a daily FNG value for cryptocurrency. You have been asked to help build and evaluate deep learning models using both the FNG values and simple closing prices to determine if the FNG indicator provides a better signal for cryptocurrencies than the normal closing price data.
+In one model, windows of bitcoin daily closing prices are used to predict the closing price of the following day through LSTM RNN. 
 
-In this assignment, you will use deep learning recurrent neural networks to model bitcoin closing prices. One model will use the FNG indicators to predict the closing price while the second model will use a window of closing prices to predict the nth closing price.
+Daily [Crypto Fear and Greed Indice (FNGs)](https://alternative.me/crypto/fear-and-greed-index/) are used for defined time windows to predict the next day's bitcoin closing price. 
 
-You will need to:
+## **Prepare the data for training and testing**
+To split the data, we mannually coded 70% for training and 30% for testing for each of the window sizes. Since the distribution of the bitcoin closing prices are uncertain, we use `MinMaxScaler` to scale the data into a range from 0 to 1. It follows that the training and testing data for X, the feature column, are transformed and reshaped. For `window_size=1`, the shape of X became (377, 1, 1) following the instruction `reshape((X_train.shape[0], X_train.shape[1], 1))` for X_train. 
 
-1. [Prepare the data for training and testing](#prepare-the-data-for-training-and-testing)
-2. [Build and train custom LSTM RNNs](#build-and-train-custom-lstm-rnns)
-3. [Evaluate the performance of each model](#evaluate-the-performance-of-each-model)
+## **Build and train custom LSTM RNNs**
+Epochs of 50 and batch size of 10 are used for the evaluation models. For Layer 2 of the **LSTM sequential** model, an activation function `tanh` is added in to minimize training losses. We use 30 units and a dropout fraction of 0.2 to avoid overfitting. 
+
+For the model, we use optimizer `adam` and `mean_squared_error` for loss to determine the fitness of our models for different time windows and evaluation metrics. Since data is in time series, we set `shuffle=False` for fitting the model and one version of the validation data. 
+
+## **Evaluation Results**
+* _**Which model has a lower loss?**_
+
+For producing the smallest loss, namely 0.0018, the model based on previous day's closing price from `window_size=1` and valuation data defined by the following script appears to be the winner:
+```python
+# Creating validation data sets
+from sklearn.model_selection import train_test_split
+X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size = 0.3, random_state=2) 
+```
+![btc_closing_1day](Answers/Images/btc_closing_1day.png)
+![btc_loss_1day](Answers/Images/btc_loss_1day.png)
+
+Since training loss continues to decreasing at the end, the model is underfitting and training process may be continued. Moreover, the plot for losses suggests the need to find more representative validation data as the validation losses are lower than training losses. The orange line falls below the blue line. 
+
+Since bitcoin closing prices are time series data, the model with `window_size=1` based on bitcoin closing price and FNG prices also produces less loss compared to other models. The valiation data is generated from the following script:
+
+```python
+# Creating validation data sets
+from sklearn.model_selection import train_test_split
+X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size = 0.3, shuffle=False, random_state=2) 
+```
+![btc_closing_unshuffled_1day](Answers/Images/btc_closing_unshuffled_1day.png)
+![btc_loss_unshuffled_1day](Answers/Images/btc_loss_unshuffled_1day.png)
+
+According to the loss figure, we can see that the curves are smoother. The validation data as represented by the orange line is above the blue traning loss. The losses continue to decrease while the gaps diminishes. It shows more representative validation data with potentially premature dermination of the process. 
+
+* _**Which model tracks the actual values better over time?**_
+
+The above model also tracts the actual values better over time as shown in the plot after comparing plots of the same type over different time windows. The orange predicted prices closely tracks the blue real price. It is not surprising as they are both bitcoin closing prices, lagged by one day. 
+
+* _**Which window size works best for the model?**_
+
+In comparison, based on evaluation results shown below, a window size of 1, meaning one day of lag, creates the best models. It generates the least amount of loss among models based on a range of window sizes from 1 to 10. 
+
+    * A window size of 1 also produces better forecasts for its model for FNG Indicator. Figures on the model is shown below:
+
+For FNG predictor models, its corresponding graphs for unshuffled validation data appears as follows:
+![btc_fng_unshuffled_1day](Answers/Images/btc_fng_unshuffled_1day.png)
+![btc_fng_loss_unshuffled_1day](Answers/Images/btc_fng_loss_unshuffled_1day.png)
+
+
+* Another model that produces relatively low losses is the model 
+![btc_closing_unshuffled_8day](Answers/Images/btc_closing_unshuffled_8day.png)
+![btc_loss_unshuffled_8day](Answers/Images/btc_loss_unshuffled_8day.png)
+Since the gap between validation and traning losses widens, the model is overfitting. 
+
+Its FNG predictor models are shown as follows:
+![btc_fng_unshuffled_1day](Answers/Images/btc_fng_unshuffled_8day.png)
+![btc_fng_unshuffled_1day](Answers/Images/btc_fng_loss_unshuffled_8day.png)
+The loss plot suggests that we need more representative the validation data. 
+
+_**Detailed results are shown in the tables below. Models that provides least losses are shown in bold:**_
+
+### **Training Loss** 
+
+_with **Shuffled** Validation_
+| Window Size |   Closing |     FNG        |
+|-------------|-----------|----------------|
+|    **1**    | **0.0018**|  **0.0988**    |
+|      2      |   0.0024  |    0.1017      |
+|      3      |   0.0024  |    0.1040      |
+|      4      |   0.0028  |    0.1182      |
+|      5      |   0.0037  |    0.1073      |
+|      6      |   0.0045  |    0.1012      |
+|      7      |   0.0050  |    0.1086      |
+|    **8**    | **0.0028**|  **0.1031**    |
+|      9      |   0.0024  |    0.1111      |
+|     10      |   0.0032  |    0.1153      |
+
+
+_with **Unshuffled** Validation_
+
+| Window Size |   Closing |     FNG        |
+|-------------|-----------|----------------|
+|  **1**      | **0.0053**| **0.0879**     |
+|    **8**    | **0.0104**|  **0.1005**    |
+
+_without Defined Validation_
+
+| Window Size |   Closing |     FNG        |
+|-------------|-----------|----------------|
+|  **1**      | **0.0021**| **0.0904**     |
+
+
+
 
 - - -
 
-### Files
+### **Discussion**
 
-[Closing Prices Starter Notebook](Starter_Code/lstm_stock_predictor_closing.ipynb)
+* A batch size of 10 is used for the models, changing it to smaller batch sizes, e.g. 5, would increase the training loss. On the other hand, decreasing batch size from 30 to 10 drops the training losses. 
 
-[FNG Starter Notebook](Starter_Code/lstm_stock_predictor_fng.ipynb)
+* Although LSTM has three `sigmoid` and one `tanh` built in as activation functions, one extra `tanh` was build on Layer 2. However, it was noted that `sigmoid` built onto Layer 2 would enhance the fng prediction model as the losses decreased following the change. For consistency purposes, `tanh` is used for both closing price and fng index predicting models. 
 
-- - -
+* One challenge is to find better validation data. 
+    * It is possible to create a binary variable as the result following certain criteria. Additional metrics can be added in, for example, accuracy, recall, ROC and AUC, etc. 
+    * A larger dataset over a longer period of time would also help. 
 
-## Instructions
-
-### Prepare the data for training and testing
-
-Use the starter code as a guide to create a Jupyter Notebook for each RNN. The starter code contains a function to help window the data for each dataset.
-
-For the Fear and Greed model, you will use the FNG values to try and predict the closing price. A function is provided in the notebook to help with this.
-
-For the closing price model, you will use previous closing prices to try and predict the next closing price. A function is provided in the notebook to help with this.
-
-Each model will need to use 70% of the data for training and 30% of the data for testing.
-
-Apply a MinMaxScaler to the X and y values to scale the data for the model.
-
-Finally, reshape the X_train and X_test values to fit the model's requirement of (samples, time steps, features).
-
-### Build and train custom LSTM RNNs
-
-In each Jupyter Notebook, create the same custom LSTM RNN architecture. In one notebook, you will fit the data using the FNG values. In the second notebook, you will fit the data using only closing prices.
-
-Use the same parameters and training steps for each model. This is necessary to compare each model accurately.
-
-### Evaluate the performance of each model
-
-Finally, use the testing data to evaluate each model and compare the performance.
-
-Use the above to answer the following:
-
-> Which model has a lower loss?
->
-> Which model tracks the actual values better over time?
->
-> Which window size works best for the model?
+* In addition, LSTM models on cumulative returns may provide helpful insights on bitcoin performance. We could take natural logs, `ln`, of the bitcoin closing prices and FNG index. Similar to this assignmnet, models are evaluated to roll out the time window(s) that produce(s) least training loss. 
 
 - - -
 
-### Resources
+### Code
 
-[Keras Sequential Model Guide](https://keras.io/getting-started/sequential-model-guide/)
+[Bitcoin Closing](Answers/Code/lstm_stock_predictor_closing.ipynb)
 
-[Illustrated Guide to LSTMs](https://towardsdatascience.com/illustrated-guide-to-lstms-and-gru-s-a-step-by-step-explanation-44e9eb85bf21)
-
-[Stanford's RNN Cheatsheet](https://stanford.edu/~shervine/teaching/cs-230/cheatsheet-recurrent-neural-networks)
+[Bitcoin FNG](Answers/Code/lstm_stock_predictor_fng.ipynb)
 
 - - -
 
-### Hints and Considerations
+### Models and Plots
+[Models Folder](Answers/Models)
 
-Experiment with the model architecture and parameters to see which provides the best results, but be sure to use the same architecture and parameters when comparing each model.
+[Plots Folder](Answers/Images)
+- - - 
 
-For training, use at least 10 estimators for both models.
+## References
 
-- - -
-
-### Submission
-
-* Create Jupyter Notebooks for the homework and host the notebooks on GitHub.
-
-* Include a Markdown that summarizes your homework and include this report in your GitHub repository.
-
-* Submit the link to your GitHub project to Bootcamp Spot.
-
-- - -
-
-© 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
+* [Keras Sequential Model Guide](https://keras.io/getting-started/sequential-model-guide/)
+* [Illustrated Guide to LSTMs](https://towardsdatascience.com/illustrated-guide-to-lstms-and-gru-s-a-step-by-step-explanation-44e9eb85bf21)
+* [Stanford's RNN Cheatsheet](https://stanford.edu/~shervine/teaching/cs-230/cheatsheet-recurrent-neural-networks)
+* CU Git Lab Repository
+* https://machinelearningmastery.com/learning-curves-for-diagnosing-machine-learning-model-performance/
+* https://www.google.com/search?q=adding+activation+function+to+lstm&rlz=1C5CHFA_enUS876US876&oq=adding+activation+function+to+lstm&aqs=chrome..69i57j33l3.6820j1j7&sourceid=chrome&ie=UTF-8
+* https://www.tensorflow.org/guide/keras/train_and_evaluate
+* http://docs.h5py.org/en/stable/high/file.html
+* https://machinelearningmastery.com/5-step-life-cycle-long-short-term-memory-models-keras/
+* https://datascience.stackexchange.com/questions/66594/activation-function-between-lstm-layers
