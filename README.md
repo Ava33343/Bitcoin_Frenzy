@@ -1,4 +1,4 @@
-# Bitcoin Franzy
+# Bitcoin Frenzy
 ## _LSTM Stock Predictor with Fear and Greed_
 
 Are you excited to forecast bitcoin prices? That is why deep learning recurrent nerual networks (RNNs) are used to predict bitcoin closing prices. Two prediction models are discussed in this assignment:
