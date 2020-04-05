@@ -57,7 +57,7 @@ For FNG predictor models, its corresponding graphs for unshuffled validation dat
 ![btc_fng_loss_unshuffled_1day](Answers/Images/btc_fng_loss_unshuffled_1day.png)
 
 
-* Another model that produces relatively low losses is the model 
+* Another model that produces relatively low losses is the model based on closing prices and `window_size=8`:
 
 ![btc_closing_unshuffled_8day](Answers/Images/btc_closing_unshuffled_8day.png)
 ![btc_loss_unshuffled_8day](Answers/Images/btc_loss_unshuffled_8day.png)
@@ -72,7 +72,7 @@ Its FNG predictor models are shown as follows:
 
 The loss plot suggests that we need more representative the validation data. 
 
-_**Detailed results are shown in the tables below. Models that provides least losses are shown in bold:**_
+_**Detailed results are shown in the tables below. Models that produces least losses are shown in bold:**_
 
 ### **Training Loss** 
 
@@ -105,6 +105,83 @@ _without Defined Validation_
 |  **1**      | **0.0021**| **0.0904**     |
 
 
+<details><summary>
+Plots on other models are shown below:
+</summary>
+
+_**Closing Price Models**_
+
+_Shuffled Validation_
+
+![btc_closing_2day](Answers/Images/btc_closing_2day.png)
+![btc_loss_2day](Answers/Images/btc_loss_2day.png)
+
+![btc_closing_3day](Answers/Images/btc_closing_3day.png)
+![btc_loss_3day](Answers/Images/btc_loss_3day.png)
+
+![btc_closing_4day](Answers/Images/btc_closing_4day.png)
+![btc_loss_4day](Answers/Images/btc_loss_4day.png)
+
+![btc_closing_5day](Answers/Images/btc_closing_5day.png)
+![btc_loss_5day](Answers/Images/btc_loss_5day.png)
+
+![btc_closing_6day](Answers/Images/btc_closing_6day.png)
+![btc_loss_6day](Answers/Images/btc_loss_6day.png)
+
+![btc_closing_7day](Answers/Images/btc_closing_7day.png)
+![btc_loss_7day](Answers/Images/btc_loss_7day.png)
+
+![btc_closing_8day](Answers/Images/btc_closing_8day.png)
+![btc_loss_8day](Answers/Images/btc_loss_8day.png)
+
+![btc_closing_10day](Answers/Images/btc_closing_10day.png)
+![btc_loss_10day](Answers/Images/btc_loss_10day.png)
+
+
+_Unshuffled Validation_
+
+![btc_closing_unshuffled_8day](Answers/Images/btc_closing_unshuffled_8day.png)
+![btc_loss_unshuffled_8day](Answers/Images/btc_loss_unshuffled_8day.png)
+
+_Without Validation_
+
+![btc_closing_original_1day](Answers/Images/btc_closing_original_1day.png)
+![btc_loss_original_1day](Answers/Images/btc_loss_original_1day.png)
+
+_**FNG Index Models**_
+
+_shuffled validation_
+
+![btc_fng_2day](Answers/Images/btc_fng_2day.png)
+![btc_fng_loss_2day](Answers/Images/btc_fng_loss_2day.png)
+
+![btc_fng_3day](Answers/Images/btc_fng_3day.png)
+![btc_fng_loss_3day](Answers/Images/btc_fng_loss_3day.png)
+
+![btc_fng_4day](Answers/Images/btc_fng_4day.png)
+![btc_fng_loss_4day](Answers/Images/btc_fng_loss_4day.png)
+
+![btc_fng_5day](Answers/Images/btc_fng_5day.png)
+![btc_fng_loss_5day](Answers/Images/btc_fng_loss_5day.png)
+
+![btc_fng_6day](Answers/Images/btc_fng_6day.png)
+![btc_fng_loss_6day](Answers/Images/btc_fng_loss_6day.png)
+
+![btc_fng_7day](Answers/Images/btc_fng_7day.png)
+![btc_fng_loss_7day](Answers/Images/btc_fng_loss_7day.png)
+
+![btc_fng_8day](Answers/Images/btc_fng_8day.png)
+![btc_fng_loss_8day](Answers/Images/btc_fng_loss_8day.png)
+
+![btc_fng_10day](Answers/Images/btc_fng_10day.png)
+![btc_fng_loss_10day](Answers/Images/btc_fng_loss_10day.png)
+
+_Without Validation_
+
+![btc_fng_original_1day](Answers/Images/btc_fng_original_1day.png)
+
+
+</details>
 
 
 - - -
